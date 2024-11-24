@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the service code into the container
 COPY . .
 
-# Expose the service port (replace with your service port)
+# Expose the service port
 EXPOSE 5002
 
 # Command to run the service

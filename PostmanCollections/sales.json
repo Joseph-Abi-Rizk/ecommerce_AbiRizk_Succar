@@ -1,0 +1,75 @@
+{
+    "info": {
+      "name": "Sales Service API",
+      "description": "Postman collection for Sales Service APIs.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Display Goods",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5003/sales/goods",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5003",
+            "path": ["sales", "goods"]
+          }
+        }
+      },
+      {
+        "name": "Goods Details",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5003/sales/goods/{{item_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5003",
+            "path": ["sales", "goods", "{{item_id}}"]
+          }
+        }
+      },
+      {
+        "name": "Process Sale",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"username\": \"{{username}}\",\n  \"item_id\": {{item_id}},\n  \"quantity\": 1\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5003/sales",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5003",
+            "path": ["sales"]
+          }
+        }
+      },
+      {
+        "name": "Purchase History",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5003/sales/history/{{username}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5003",
+            "path": ["sales", "history", "{{username}}"]
+          }
+        }
+      }
+    ]
+  }
+  

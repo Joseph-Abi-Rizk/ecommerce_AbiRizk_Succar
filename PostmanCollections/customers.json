@@ -1,0 +1,151 @@
+{
+    "info": {
+      "name": "Customers Service API",
+      "description": "Postman collection to test the Customers service APIs with dynamic variables.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Register Customer",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"full_name\": \"\",\n  \"username\": \"{{username}}\",\n  \"password\": \"\",\n  \"age\": null,\n  \"address\": \"\",\n  \"gender\": \"\",\n  \"marital_status\": \"\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5001/customers/register",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5001",
+            "path": ["customers", "register"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get All Customers",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5001/customers",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5001",
+            "path": ["customers"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get Customer by Username",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5001/customers/{{username}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5001",
+            "path": ["customers", "{{username}}"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Update Customer",
+        "request": {
+          "method": "PUT",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"full_name\": \"{{updated_full_name}}\",\n  \"age\": {{updated_age}}\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5001/customers/{{username}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5001",
+            "path": ["customers", "{{username}}"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Delete Customer",
+        "request": {
+          "method": "DELETE",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5001/customers/{{username}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5001",
+            "path": ["customers", "{{username}}"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Charge Customer Wallet",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"username\": \"{{username}}\",\n  \"amount\": {{amount}}\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5001/customers/charge",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5001",
+            "path": ["customers", "charge"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Deduct Customer Wallet",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"username\": \"{{username}}\",\n  \"amount\": {{amount}}\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5001/customers/deduct",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5001",
+            "path": ["customers", "deduct"]
+          }
+        },
+        "response": []
+      }
+    ]
+  }
+  

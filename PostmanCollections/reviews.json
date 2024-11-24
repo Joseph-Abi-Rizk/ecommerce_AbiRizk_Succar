@@ -1,0 +1,107 @@
+{
+    "info": {
+      "name": "Reviews Service API",
+      "description": "Postman collection for Reviews Service APIs.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Submit Review",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"username\": \"{{username}}\",\n  \"item_id\": {{item_id}},\n  \"rating\": 5,\n  \"comment\": \"Great product!\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5004/reviews/submit",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5004",
+            "path": ["reviews", "submit"]
+          }
+        }
+      },
+      {
+        "name": "Update Review",
+        "request": {
+          "method": "PUT",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"rating\": 4,\n  \"comment\": \"Updated review comment.\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5004/reviews/update/{{review_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5004",
+            "path": ["reviews", "update", "{{review_id}}"]
+          }
+        }
+      },
+      {
+        "name": "Delete Review",
+        "request": {
+          "method": "DELETE",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5004/reviews/delete/{{review_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5004",
+            "path": ["reviews", "delete", "{{review_id}}"]
+          }
+        }
+      },
+      {
+        "name": "Get Product Reviews",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5004/reviews/product/{{item_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5004",
+            "path": ["reviews", "product", "{{item_id}}"]
+          }
+        }
+      },
+      {
+        "name": "Moderate Review",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"status\": \"Approved\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5004/reviews/moderate/{{review_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5004",
+            "path": ["reviews", "moderate", "{{review_id}}"]
+          }
+        }
+      }
+    ]
+  }
+  

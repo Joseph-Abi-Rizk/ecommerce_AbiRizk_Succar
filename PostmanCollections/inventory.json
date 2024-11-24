@@ -1,0 +1,93 @@
+{
+    "info": {
+      "name": "Inventory Service API",
+      "description": "Postman collection for Inventory Service APIs.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Add Goods",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"name\": \"Laptop\",\n  \"category\": \"Electronics\",\n  \"price\": 1200.99,\n  \"description\": \"High-end gaming laptop\",\n  \"count\": 10\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5002/inventory/add",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5002",
+            "path": ["inventory", "add"]
+          }
+        }
+      },
+      {
+        "name": "Update Goods",
+        "request": {
+          "method": "PUT",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"name\": \"Updated Laptop\",\n  \"price\": 999.99\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5002/inventory/update/{{item_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5002",
+            "path": ["inventory", "update", "{{item_id}}"]
+          }
+        }
+      },
+      {
+        "name": "Deduct Goods",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"count\": 2\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5002/inventory/deduct/{{item_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5002",
+            "path": ["inventory", "deduct", "{{item_id}}"]
+          }
+        }
+      },
+      {
+        "name": "Get All Inventory Items",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5002/inventory",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5002",
+            "path": ["inventory"]
+          }
+        }
+      }
+    ]
+  }
+  
