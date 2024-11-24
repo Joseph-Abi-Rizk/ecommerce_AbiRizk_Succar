@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from database.models import db,Sale,Customer,Inventory
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/pc/OneDrive/Desktop/uni/FALL 25/eece435L/ecommerce_AbiRizk_Succar/database/database.db' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
@@ -53,7 +53,7 @@ def process_sale():
     item.count -= data['quantity']
 
     # Record the sale
-    new_sale = Sale(customer_id=customer.id, inventory_id=item.id, quantity=data['quantity'], total_price=total_price)
+    new_sale = Sale(customer_id=customer.id, inventory_id=item.id, quantity=data['quantity'])
     db.session.add(new_sale)
     db.session.commit()
 
@@ -68,7 +68,7 @@ def purchase_history(username):
 
     sales = Sale.query.filter_by(customer_id=customer.id).all()
     history = [
-        {"item_id": sale.inventory_id, "quantity": sale.quantity, "total_price": sale.total_price, "date": sale.sale_date}
+        {"item_id": sale.inventory_id, "quantity": sale.quantity,  "date": sale.sale_date}
         for sale in sales
     ]
     return jsonify(history)
