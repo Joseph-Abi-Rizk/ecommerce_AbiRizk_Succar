@@ -16,6 +16,20 @@ jwt = JWTManager(app)
 # Customer registration endpoint
 @app.route('/customers/register', methods=['POST'])
 def register_customer():
+    """
+    Registers a new customer.
+
+    Validates the provided data, checks if the username is unique, 
+    and creates a new customer record in the database.
+
+    Arguments:
+        None (data is expected in the request body)
+
+    Returns:
+        JSON response with a success message or error message.
+        - Success: {"message": "Customer registered successfully"}, status code 201
+        - Failure: {"message": "Username already taken"} or {"message": "Username and password are required"}, status code 400
+    """
     data = request.get_json()
 
     # Validate input data
@@ -43,6 +57,15 @@ def register_customer():
 # Get all customers
 @app.route('/customers', methods=['GET'])
 def get_customers():
+    """
+    Fetches all customers from the database.
+
+    Arguments:
+        None
+
+    Returns:
+        JSON list of customers with basic details (id, username, full_name).
+    """
     customers = Customer.query.all()
     customer_list = [{"id": customer.id, "username": customer.username, "full_name": customer.full_name} for customer in customers]
     return jsonify(customer_list)
@@ -50,6 +73,17 @@ def get_customers():
 # Get customer by username
 @app.route('/customers/<username>', methods=['GET'])
 def get_customer_by_username(username):
+    """
+    Fetches the customer details by their username.
+
+    Arguments:
+        username (str): The username of the customer to retrieve.
+
+    Returns:
+        JSON response with customer details if found, else error message.
+        - Success: Customer details in JSON format, status code 200
+        - Failure: {"message": "Customer not found"}, status code 404
+    """
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
         return jsonify({"message": "Customer not found"}), 404
@@ -66,6 +100,20 @@ def get_customer_by_username(username):
 # Update customer details
 @app.route('/customers/<username>', methods=['PUT'])
 def update_customer(username):
+    """
+    Updates the details of an existing customer.
+
+    Arguments:
+        username (str): The username of the customer to update.
+    
+    Request Data:
+        JSON data with fields that need to be updated (e.g., full_name, age, etc.)
+
+    Returns:
+        JSON response with success message or error message.
+        - Success: {"message": "Customer updated successfully"}, status code 200
+        - Failure: {"message": "Customer not found"}, status code 404
+    """
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
         return jsonify({"message": "Customer not found"}), 404
@@ -88,6 +136,17 @@ def update_customer(username):
 # Delete customer
 @app.route('/customers/<username>', methods=['DELETE'])
 def delete_customer(username):
+    """
+    Deletes a customer by username.
+
+    Arguments:
+        username (str): The username of the customer to delete.
+    
+    Returns:
+        JSON response with success message or error message.
+        - Success: {"message": "Customer deleted successfully"}, status code 200
+        - Failure: {"message": "Customer not found"}, status code 404
+    """
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
         return jsonify({"message": "Customer not found"}), 404
@@ -99,6 +158,17 @@ def delete_customer(username):
 # Charge customer's wallet
 @app.route('/customers/charge', methods=['POST'])
 def charge_customer():
+    """
+    Charges a specified amount to a customer's wallet.
+
+    Arguments:
+        JSON data with `username` and `amount` to charge.
+    
+    Returns:
+        JSON response with updated wallet balance or error message.
+        - Success: {"message": "Wallet charged successfully", "wallet_balance": <new_balance>}, status code 200
+        - Failure: {"message": "Customer not found"}, status code 404
+    """
     data = request.get_json()
     customer = Customer.query.filter_by(username=data['username']).first()
     if not customer:
@@ -111,6 +181,17 @@ def charge_customer():
 # Deduct from customer's wallet
 @app.route('/customers/deduct', methods=['POST'])
 def deduct_from_wallet():
+    """
+    Deducts a specified amount from a customer's wallet.
+
+    Arguments:
+        JSON data with `username` and `amount` to deduct.
+    
+    Returns:
+        JSON response with updated wallet balance or error message.
+        - Success: {"message": "Amount deducted", "wallet_balance": <new_balance>}, status code 200
+        - Failure: {"message": "Customer not found"} or {"message": "Insufficient funds"}, status code 404 or 400
+    """
     data = request.get_json()
     customer = Customer.query.filter_by(username=data['username']).first()
     if not customer:
@@ -125,4 +206,15 @@ def deduct_from_wallet():
 
 
 if __name__ == '__main__':
+    """
+    Runs the Flask application.
+    
+    Starts the Flask web server on host 0.0.0.0 and port 5001 in debug mode.
+
+    Arguments:
+        None
+    
+    Returns:
+        None
+    """
     app.run(debug=True, host='0.0.0.0', port=5001)

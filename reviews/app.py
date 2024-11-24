@@ -10,6 +10,21 @@ db.init_app(app)
 # Submit a new review
 @app.route('/reviews/submit', methods=['POST'])
 def submit_review():
+    """
+    Submits a new review for a product by a customer.
+
+    This function accepts a POST request containing customer details, product details (item_id), 
+    rating, and an optional comment. It verifies that the customer and product exist, creates a new 
+    review, and saves it to the database.
+
+    Arguments:
+        None (data is expected in the request body)
+
+    Returns:
+        JSON response with success or error message:
+            - Success: {"message": "Review submitted successfully"}, status code 201
+            - Failure: {"message": "Customer or item not found"}, status code 404
+    """
     data = request.get_json()
 
     # Check if customer and item exist
@@ -33,6 +48,23 @@ def submit_review():
 # Update a review
 @app.route('/reviews/update/<int:review_id>', methods=['PUT'])
 def update_review(review_id):
+    """
+    Updates an existing review.
+
+    This function allows a customer or an administrator to update a review's rating or comment.
+    It checks if the review exists and updates the provided fields.
+
+    Arguments:
+        review_id (int): The ID of the review to be updated.
+    
+    Request Data:
+        JSON containing optional fields to update (rating, comment).
+
+    Returns:
+        JSON response with success or error message:
+            - Success: {"message": "Review updated successfully"}, status code 200
+            - Failure: {"message": "Review not found"}, status code 404
+    """
     review = Review.query.get(review_id)
     if not review:
         return jsonify({"message": "Review not found"}), 404
@@ -49,6 +81,20 @@ def update_review(review_id):
 # Delete a review
 @app.route('/reviews/delete/<int:review_id>', methods=['DELETE'])
 def delete_review(review_id):
+    """
+    Deletes a review from the database.
+
+    This function handles the deletion of a review by its ID. It checks if the review exists,
+    and if it does, it removes it from the database.
+
+    Arguments:
+        review_id (int): The ID of the review to be deleted.
+    
+    Returns:
+        JSON response with success or error message:
+            - Success: {"message": "Review deleted successfully"}, status code 200
+            - Failure: {"message": "Review not found"}, status code 404
+    """
     review = Review.query.get(review_id)
     if not review:
         return jsonify({"message": "Review not found"}), 404
@@ -60,6 +106,20 @@ def delete_review(review_id):
 # Get all reviews for a product
 @app.route('/reviews/product/<int:item_id>', methods=['GET'])
 def get_product_reviews(item_id):
+    """
+    Retrieves all reviews for a specific product.
+
+    This function accepts a GET request with the product ID (item_id) and returns all reviews
+    for that product. If no reviews are found, it returns an appropriate message.
+
+    Arguments:
+        item_id (int): The ID of the product to fetch reviews for.
+    
+    Returns:
+        JSON response with a list of reviews or error message:
+            - Success: A list of reviews for the product, status code 200
+            - Failure: {"message": "No reviews found for this product"}, status code 404
+    """
     reviews = Review.query.filter_by(inventory_id=item_id).all()
     if not reviews:
         return jsonify({"message": "No reviews found for this product"}), 404
@@ -73,6 +133,23 @@ def get_product_reviews(item_id):
 # Moderate a review (approve or reject)
 @app.route('/reviews/moderate/<int:review_id>', methods=['POST'])
 def moderate_review(review_id):
+    """
+    Moderates the status of a review.
+
+    This function allows administrators to approve or reject a review based on its content.
+    It accepts a POST request to change the review's status to either 'Approved' or 'Rejected'.
+
+    Arguments:
+        review_id (int): The ID of the review to be moderated.
+
+    Request Data:
+        JSON containing the status to set ('Approved' or 'Rejected').
+
+    Returns:
+        JSON response with success or error message:
+            - Success: {"message": "Review status updated to <status>"}, status code 200
+            - Failure: {"message": "Review not found"} or {"message": "Invalid status"}, status code 404 or 400
+    """
     review = Review.query.get(review_id)
     if not review:
         return jsonify({"message": "Review not found"}), 404
@@ -87,4 +164,15 @@ def moderate_review(review_id):
 
 
 if __name__ == '__main__':
+    """
+    Runs the Flask application.
+
+    Starts the Flask web server on host 0.0.0.0 and port 5004 in debug mode.
+
+    Arguments:
+        None
+    
+    Returns:
+        None
+    """
     app.run(debug=True, host='0.0.0.0', port=5004)
