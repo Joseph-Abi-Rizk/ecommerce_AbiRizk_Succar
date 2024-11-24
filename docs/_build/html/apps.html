@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Flask Applications &#8212; Ecommerce_AbiRizk_Succar v1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5cb08e4e"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Postman Collections" href="postman_collections.html" />
+    <link rel="prev" title="Database Models" href="models.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="flask-applications">
+<h1>Flask Applications<a class="headerlink" href="#flask-applications" title="Link to this heading">¶</a></h1>
+<p>This section documents the Flask applications in the project.</p>
+<section id="module-customers.app">
+<span id="customers-app"></span><h2>Customers App<a class="headerlink" href="#module-customers.app" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="customers.app.charge_customer">
+<span class="sig-prename descclassname"><span class="pre">customers.app.</span></span><span class="sig-name descname"><span class="pre">charge_customer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customers.app.charge_customer" title="Link to this definition">¶</a></dt>
+<dd><p>Charges a specified amount to a customer’s wallet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>charge.</strong> (<em>JSON data with username and amount to</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with updated wallet balance or error message.
+- Success: {“message”: “Wallet charged successfully”, “wallet_balance”: &lt;new_balance&gt;}, status code 200
+- Failure: {“message”: “Customer not found”}, status code 404</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customers.app.deduct_from_wallet">
+<span class="sig-prename descclassname"><span class="pre">customers.app.</span></span><span class="sig-name descname"><span class="pre">deduct_from_wallet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customers.app.deduct_from_wallet" title="Link to this definition">¶</a></dt>
+<dd><p>Deducts a specified amount from a customer’s wallet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>deduct.</strong> (<em>JSON data with username and amount to</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with updated wallet balance or error message.
+- Success: {“message”: “Amount deducted”, “wallet_balance”: &lt;new_balance&gt;}, status code 200
+- Failure: {“message”: “Customer not found”} or {“message”: “Insufficient funds”}, status code 404 or 400</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customers.app.delete_customer">
+<span class="sig-prename descclassname"><span class="pre">customers.app.</span></span><span class="sig-name descname"><span class="pre">delete_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customers.app.delete_customer" title="Link to this definition">¶</a></dt>
+<dd><p>Deletes a customer by username.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – The username of the customer to delete.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with success message or error message.
+- Success: {“message”: “Customer deleted successfully”}, status code 200
+- Failure: {“message”: “Customer not found”}, status code 404</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customers.app.get_customer_by_username">
+<span class="sig-prename descclassname"><span class="pre">customers.app.</span></span><span class="sig-name descname"><span class="pre">get_customer_by_username</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customers.app.get_customer_by_username" title="Link to this definition">¶</a></dt>
+<dd><p>Fetches the customer details by their username.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – The username of the customer to retrieve.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with customer details if found, else error message.
+- Success: Customer details in JSON format, status code 200
+- Failure: {“message”: “Customer not found”}, status code 404</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customers.app.get_customers">
+<span class="sig-prename descclassname"><span class="pre">customers.app.</span></span><span class="sig-name descname"><span class="pre">get_customers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customers.app.get_customers" title="Link to this definition">¶</a></dt>
+<dd><p>Fetches all customers from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON list of customers with basic details (id, username, full_name).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customers.app.register_customer">
+<span class="sig-prename descclassname"><span class="pre">customers.app.</span></span><span class="sig-name descname"><span class="pre">register_customer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customers.app.register_customer" title="Link to this definition">¶</a></dt>
+<dd><p>Registers a new customer.</p>
+<p>Validates the provided data, checks if the username is unique,
+and creates a new customer record in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> (<em>data is expected in the request body</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with a success message or error message.
+- Success: {“message”: “Customer registered successfully”}, status code 201
+- Failure: {“message”: “Username already taken”} or {“message”: “Username and password are required”}, status code 400</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customers.app.update_customer">
+<span class="sig-prename descclassname"><span class="pre">customers.app.</span></span><span class="sig-name descname"><span class="pre">update_customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customers.app.update_customer" title="Link to this definition">¶</a></dt>
+<dd><p>Updates the details of an existing customer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – The username of the customer to update.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Request Data:</dt><dd><p>JSON data with fields that need to be updated (e.g., full_name, age, etc.)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSON response with success message or error message.
+- Success: {“message”: “Customer updated successfully”}, status code 200
+- Failure: {“message”: “Customer not found”}, status code 404</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-inventory.app">
+<span id="inventory-app"></span><h2>Inventory App<a class="headerlink" href="#module-inventory.app" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="inventory.app.add_goods">
+<span class="sig-prename descclassname"><span class="pre">inventory.app.</span></span><span class="sig-name descname"><span class="pre">add_goods</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#inventory.app.add_goods" title="Link to this definition">¶</a></dt>
+<dd><p>Adds a new item to the inventory.</p>
+<p>This function handles the creation of a new inventory item by accepting data in JSON format.
+It then adds the new item to the database and returns a success message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> (<em>data is expected in the request body</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with a success message.
+- Success: {“message”: “Item added successfully”}, status code 201</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inventory.app.deduct_goods">
+<span class="sig-prename descclassname"><span class="pre">inventory.app.</span></span><span class="sig-name descname"><span class="pre">deduct_goods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inventory.app.deduct_goods" title="Link to this definition">¶</a></dt>
+<dd><p>Deducts a specified quantity of an inventory item.</p>
+<p>This function reduces the stock count of an inventory item by the specified quantity.
+If the stock is insufficient, it returns an error message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item_id</strong> (<em>int</em>) – The ID of the inventory item for which the stock is to be deducted.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Request Data:</dt><dd><p>JSON data containing the <cite>count</cite> to deduct from the stock.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSON response with success message, remaining stock, or error message.
+- Success: {“message”: “Stock deducted successfully”, “remaining_count”: &lt;remaining_count&gt;}, status code 200
+- Failure: {“message”: “Item not found”} or {“message”: “Insufficient stock”}, status code 404 or 400</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inventory.app.get_inventory">
+<span class="sig-prename descclassname"><span class="pre">inventory.app.</span></span><span class="sig-name descname"><span class="pre">get_inventory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#inventory.app.get_inventory" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieves all items from the inventory.</p>
+<p>This function fetches all inventory items from the database and returns them in a list of JSON objects
+containing basic information such as item ID, name, category, price, and stock count.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with a list of inventory items.
+- Success: A list of items with details (id, name, category, price, count), status code 200</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inventory.app.update_goods">
+<span class="sig-prename descclassname"><span class="pre">inventory.app.</span></span><span class="sig-name descname"><span class="pre">update_goods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#inventory.app.update_goods" title="Link to this definition">¶</a></dt>
+<dd><p>Updates an existing inventory item.</p>
+<p>This function handles the update of an inventory item’s details (such as name, category, price, etc.)
+based on the provided <cite>item_id</cite> and the data in the request body.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item_id</strong> (<em>int</em>) – The ID of the inventory item to be updated.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Request Data:</dt><dd><p>JSON data containing fields to update (e.g., name, category, price, etc.)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSON response with a success message or error message.
+- Success: {“message”: “Item updated successfully”}, status code 200
+- Failure: {“message”: “Item not found”}, status code 404</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-reviews.app">
+<span id="reviews-app"></span><h2>Reviews App<a class="headerlink" href="#module-reviews.app" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="reviews.app.delete_review">
+<span class="sig-prename descclassname"><span class="pre">reviews.app.</span></span><span class="sig-name descname"><span class="pre">delete_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">review_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.delete_review" title="Link to this definition">¶</a></dt>
+<dd><p>Deletes a review from the database.</p>
+<p>This function handles the deletion of a review by its ID. It checks if the review exists,
+and if it does, it removes it from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>review_id</strong> (<em>int</em>) – The ID of the review to be deleted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Success: {“message”: “Review deleted successfully”}, status code 200</p></li>
+<li><p>Failure: {“message”: “Review not found”}, status code 404</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSON response with success or error message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reviews.app.get_product_reviews">
+<span class="sig-prename descclassname"><span class="pre">reviews.app.</span></span><span class="sig-name descname"><span class="pre">get_product_reviews</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.get_product_reviews" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieves all reviews for a specific product.</p>
+<p>This function accepts a GET request with the product ID (item_id) and returns all reviews
+for that product. If no reviews are found, it returns an appropriate message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item_id</strong> (<em>int</em>) – The ID of the product to fetch reviews for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Success: A list of reviews for the product, status code 200</p></li>
+<li><p>Failure: {“message”: “No reviews found for this product”}, status code 404</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSON response with a list of reviews or error message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reviews.app.moderate_review">
+<span class="sig-prename descclassname"><span class="pre">reviews.app.</span></span><span class="sig-name descname"><span class="pre">moderate_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">review_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.moderate_review" title="Link to this definition">¶</a></dt>
+<dd><p>Moderates the status of a review.</p>
+<p>This function allows administrators to approve or reject a review based on its content.
+It accepts a POST request to change the review’s status to either ‘Approved’ or ‘Rejected’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>review_id</strong> (<em>int</em>) – The ID of the review to be moderated.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Request Data:</dt><dd><p>JSON containing the status to set (‘Approved’ or ‘Rejected’).</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p>Success: {“message”: “Review status updated to &lt;status&gt;”}, status code 200</p></li>
+<li><p>Failure: {“message”: “Review not found”} or {“message”: “Invalid status”}, status code 404 or 400</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with success or error message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reviews.app.submit_review">
+<span class="sig-prename descclassname"><span class="pre">reviews.app.</span></span><span class="sig-name descname"><span class="pre">submit_review</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.submit_review" title="Link to this definition">¶</a></dt>
+<dd><p>Submits a new review for a product by a customer.</p>
+<p>This function accepts a POST request containing customer details, product details (item_id),
+rating, and an optional comment. It verifies that the customer and product exist, creates a new
+review, and saves it to the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> (<em>data is expected in the request body</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Success: {“message”: “Review submitted successfully”}, status code 201</p></li>
+<li><p>Failure: {“message”: “Customer or item not found”}, status code 404</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSON response with success or error message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reviews.app.update_review">
+<span class="sig-prename descclassname"><span class="pre">reviews.app.</span></span><span class="sig-name descname"><span class="pre">update_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">review_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reviews.app.update_review" title="Link to this definition">¶</a></dt>
+<dd><p>Updates an existing review.</p>
+<p>This function allows a customer or an administrator to update a review’s rating or comment.
+It checks if the review exists and updates the provided fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>review_id</strong> (<em>int</em>) – The ID of the review to be updated.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Request Data:</dt><dd><p>JSON containing optional fields to update (rating, comment).</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p>Success: {“message”: “Review updated successfully”}, status code 200</p></li>
+<li><p>Failure: {“message”: “Review not found”}, status code 404</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with success or error message</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-sales.app">
+<span id="sales-app"></span><h2>Sales App<a class="headerlink" href="#module-sales.app" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sales.app.display_goods">
+<span class="sig-prename descclassname"><span class="pre">sales.app.</span></span><span class="sig-name descname"><span class="pre">display_goods</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sales.app.display_goods" title="Link to this definition">¶</a></dt>
+<dd><p>Displays all available goods (items) in stock.</p>
+<p>This function retrieves all items from the inventory where the stock count is greater than zero
+and returns them with their basic details such as name, price, and available stock.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response containing a list of available items in stock with their details.
+- Example: [{“id”: 1, “name”: “Laptop”, “price”: 1000.0, “count”: 10}]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sales.app.goods_details">
+<span class="sig-prename descclassname"><span class="pre">sales.app.</span></span><span class="sig-name descname"><span class="pre">goods_details</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sales.app.goods_details" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieves the details of a specific item in the inventory.</p>
+<p>This function accepts an item ID and returns detailed information about the item, including its name,
+category, price, description, and available stock.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item_id</strong> (<em>int</em>) – The ID of the item to retrieve details for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response containing the details of the specified item.
+- Success: Item details in JSON format
+- Failure: {“message”: “Item not found”}, status code 404</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sales.app.process_sale">
+<span class="sig-prename descclassname"><span class="pre">sales.app.</span></span><span class="sig-name descname"><span class="pre">process_sale</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sales.app.process_sale" title="Link to this definition">¶</a></dt>
+<dd><p>Processes a sale transaction for a customer.</p>
+<p>This function handles the sale process by checking if the customer has enough funds to make the purchase
+and if the product has sufficient stock. If the sale is valid, the inventory and customer wallet are updated,
+and a sale record is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> (<em>data is expected in the request body</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Success: {“message”: “Sale processed successfully”, “remaining_balance”: &lt;remaining_balance&gt;}, status code 200</p></li>
+<li><p>Failure: {“message”: “Customer or item not found”} or {“message”: “Insufficient funds”} or {“message”: “Insufficient stock”}, status code 404, 400, or 400</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSON response with success or error message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sales.app.purchase_history">
+<span class="sig-prename descclassname"><span class="pre">sales.app.</span></span><span class="sig-name descname"><span class="pre">purchase_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sales.app.purchase_history" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieves the purchase history of a customer.</p>
+<p>This function accepts a customer’s username and retrieves all the sales made by that customer,
+including the item IDs, quantities, and sale dates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – The username of the customer whose purchase history is being retrieved.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response containing the customer’s purchase history.
+- Success: A list of purchases in JSON format, status code 200
+- Failure: {“message”: “Customer not found”}, status code 404</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Ecommerce_AbiRizk_Succar</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Sections:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database_reset.html">Database Reset Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Database Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Flask Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-customers.app">Customers App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-inventory.app">Inventory App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-reviews.app">Reviews App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-sales.app">Sales App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postman_collections.html">Postman Collections</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="models.html" title="previous chapter">Database Models</a></li>
+      <li>Next: <a href="postman_collections.html" title="next chapter">Postman Collections</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Joseph Abi Rizk and Nadim Succar.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/apps.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

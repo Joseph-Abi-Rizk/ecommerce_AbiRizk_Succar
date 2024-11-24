@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Database Models &#8212; Ecommerce_AbiRizk_Succar v1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5cb08e4e"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Flask Applications" href="apps.html" />
+    <link rel="prev" title="Database Reset Script" href="database_reset.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="database-models">
+<h1>Database Models<a class="headerlink" href="#database-models" title="Link to this heading">¶</a></h1>
+<p>This section documents the database models used in the project.</p>
+<section id="module-database.models">
+<span id="customer-model"></span><h2>Customer Model<a class="headerlink" href="#module-database.models" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="database.models.Customer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">database.models.</span></span><span class="sig-name descname"><span class="pre">Customer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.models.Customer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Represents a customer in the database.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#database.models.Customer.id" title="Link to this definition">¶</a></dt>
+<dd><p>Unique identifier for the customer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.full_name">
+<span class="sig-name descname"><span class="pre">full_name</span></span><a class="headerlink" href="#database.models.Customer.full_name" title="Link to this definition">¶</a></dt>
+<dd><p>Full name of the customer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.username">
+<span class="sig-name descname"><span class="pre">username</span></span><a class="headerlink" href="#database.models.Customer.username" title="Link to this definition">¶</a></dt>
+<dd><p>Unique username for the customer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.password">
+<span class="sig-name descname"><span class="pre">password</span></span><a class="headerlink" href="#database.models.Customer.password" title="Link to this definition">¶</a></dt>
+<dd><p>Password for the customer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.age">
+<span class="sig-name descname"><span class="pre">age</span></span><a class="headerlink" href="#database.models.Customer.age" title="Link to this definition">¶</a></dt>
+<dd><p>Age of the customer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.address">
+<span class="sig-name descname"><span class="pre">address</span></span><a class="headerlink" href="#database.models.Customer.address" title="Link to this definition">¶</a></dt>
+<dd><p>Address of the customer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.gender">
+<span class="sig-name descname"><span class="pre">gender</span></span><a class="headerlink" href="#database.models.Customer.gender" title="Link to this definition">¶</a></dt>
+<dd><p>Gender of the customer, can be ‘Male’, ‘Female’, or ‘Other’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.marital_status">
+<span class="sig-name descname"><span class="pre">marital_status</span></span><a class="headerlink" href="#database.models.Customer.marital_status" title="Link to this definition">¶</a></dt>
+<dd><p>Marital status of the customer, can be ‘Single’, ‘Married’, ‘Divorced’, or ‘Widowed’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.wallet_balance">
+<span class="sig-name descname"><span class="pre">wallet_balance</span></span><a class="headerlink" href="#database.models.Customer.wallet_balance" title="Link to this definition">¶</a></dt>
+<dd><p>Wallet balance of the customer, defaults to 0.0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="database.models.Customer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gender</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marital_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.models.Customer.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes a new customer instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">address</span></span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">age</span></span><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">full_name</span></span><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">gender</span></span><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#id4" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">marital_status</span></span><a class="headerlink" href="#id5" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">password</span></span><a class="headerlink" href="#id6" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Customer.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#database.models.Customer.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">username</span></span><a class="headerlink" href="#id7" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">wallet_balance</span></span><a class="headerlink" href="#id8" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-0">
+<span id="inventory-model"></span><h2>Inventory Model<a class="headerlink" href="#module-0" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="database.models.Inventory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">database.models.</span></span><span class="sig-name descname"><span class="pre">Inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.models.Inventory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Represents an inventory item in the database.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Inventory.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#database.models.Inventory.id" title="Link to this definition">¶</a></dt>
+<dd><p>Unique identifier for the inventory item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Inventory.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#database.models.Inventory.name" title="Link to this definition">¶</a></dt>
+<dd><p>Name of the item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Inventory.category">
+<span class="sig-name descname"><span class="pre">category</span></span><a class="headerlink" href="#database.models.Inventory.category" title="Link to this definition">¶</a></dt>
+<dd><p>Category of the item (e.g., Food, Clothes, Electronics).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Inventory.price">
+<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#database.models.Inventory.price" title="Link to this definition">¶</a></dt>
+<dd><p>Price of the item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Inventory.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#database.models.Inventory.description" title="Link to this definition">¶</a></dt>
+<dd><p>Description of the item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Inventory.count">
+<span class="sig-name descname"><span class="pre">count</span></span><a class="headerlink" href="#database.models.Inventory.count" title="Link to this definition">¶</a></dt>
+<dd><p>Number of items available in stock.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="database.models.Inventory.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.models.Inventory.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes a new inventory item instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">category</span></span><a class="headerlink" href="#id9" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">count</span></span><a class="headerlink" href="#id10" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#id11" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#id12" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#id13" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#id14" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Inventory.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#database.models.Inventory.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-1">
+<span id="sale-model"></span><h2>Sale Model<a class="headerlink" href="#module-1" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="database.models.Sale">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">database.models.</span></span><span class="sig-name descname"><span class="pre">Sale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.models.Sale" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Represents a sale transaction in the database.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Sale.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#database.models.Sale.id" title="Link to this definition">¶</a></dt>
+<dd><p>Unique identifier for the sale transaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Sale.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><a class="headerlink" href="#database.models.Sale.customer_id" title="Link to this definition">¶</a></dt>
+<dd><p>Foreign key to the customer making the purchase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Sale.inventory_id">
+<span class="sig-name descname"><span class="pre">inventory_id</span></span><a class="headerlink" href="#database.models.Sale.inventory_id" title="Link to this definition">¶</a></dt>
+<dd><p>Foreign key to the inventory item being purchased.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Sale.quantity">
+<span class="sig-name descname"><span class="pre">quantity</span></span><a class="headerlink" href="#database.models.Sale.quantity" title="Link to this definition">¶</a></dt>
+<dd><p>Number of items purchased.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Sale.sale_date">
+<span class="sig-name descname"><span class="pre">sale_date</span></span><a class="headerlink" href="#database.models.Sale.sale_date" title="Link to this definition">¶</a></dt>
+<dd><p>Date and time when the sale occurred, defaulted to the current time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="database.models.Sale.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.models.Sale.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes a new sale transaction instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><a class="headerlink" href="#id15" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#id16" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">inventory_id</span></span><a class="headerlink" href="#id17" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">quantity</span></span><a class="headerlink" href="#id18" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Sale.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#database.models.Sale.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">sale_date</span></span><a class="headerlink" href="#id19" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-2">
+<span id="review-model"></span><h2>Review Model<a class="headerlink" href="#module-2" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="database.models.Review">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">database.models.</span></span><span class="sig-name descname"><span class="pre">Review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.models.Review" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Represents a product review submitted by a customer.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Review.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#database.models.Review.id" title="Link to this definition">¶</a></dt>
+<dd><p>Unique identifier for the review.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Review.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><a class="headerlink" href="#database.models.Review.customer_id" title="Link to this definition">¶</a></dt>
+<dd><p>Foreign key to the customer submitting the review.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Review.inventory_id">
+<span class="sig-name descname"><span class="pre">inventory_id</span></span><a class="headerlink" href="#database.models.Review.inventory_id" title="Link to this definition">¶</a></dt>
+<dd><p>Foreign key to the inventory item being reviewed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Review.rating">
+<span class="sig-name descname"><span class="pre">rating</span></span><a class="headerlink" href="#database.models.Review.rating" title="Link to this definition">¶</a></dt>
+<dd><p>Rating for the product (1 to 5).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Review.comment">
+<span class="sig-name descname"><span class="pre">comment</span></span><a class="headerlink" href="#database.models.Review.comment" title="Link to this definition">¶</a></dt>
+<dd><p>Review comment for the product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Review.status">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#database.models.Review.status" title="Link to this definition">¶</a></dt>
+<dd><p>Status of the review (‘Pending’, ‘Approved’, or ‘Rejected’), defaults to ‘Pending’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Review.review_date">
+<span class="sig-name descname"><span class="pre">review_date</span></span><a class="headerlink" href="#database.models.Review.review_date" title="Link to this definition">¶</a></dt>
+<dd><p>Date and time when the review was submitted, defaulted to the current time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="database.models.Review.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inventory_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rating</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Pending'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.models.Review.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes a new review instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">comment</span></span><a class="headerlink" href="#id20" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><a class="headerlink" href="#id21" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#id22" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">inventory_id</span></span><a class="headerlink" href="#id23" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="database.models.Review.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#database.models.Review.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">rating</span></span><a class="headerlink" href="#id24" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">review_date</span></span><a class="headerlink" href="#id25" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#id26" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Ecommerce_AbiRizk_Succar</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Sections:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database_reset.html">Database Reset Script</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Database Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-database.models">Customer Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-0">Inventory Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-1">Sale Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-2">Review Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Flask Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postman_collections.html">Postman Collections</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="database_reset.html" title="previous chapter">Database Reset Script</a></li>
+      <li>Next: <a href="apps.html" title="next chapter">Flask Applications</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Joseph Abi Rizk and Nadim Succar.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/models.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
