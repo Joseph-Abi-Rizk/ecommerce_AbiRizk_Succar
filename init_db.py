@@ -8,6 +8,26 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Re-initialize the database with the app context
 with app.app_context():
+    """
+    Reinitializes the database.
+
+    This script uses the Flask app context to:
+        1. Drop all existing tables in the database.
+        2. Recreate the database tables as defined in the models.
+    
+    Models used:
+        - Customer
+        - Inventory
+        - Sale
+        - Review
+    
+    **Caution**:
+        The `db.drop_all()` command will delete all existing data.
+        Use this script only when resetting the database is required.
+
+    Prints:
+        A confirmation message ("Database reinitialized successfully.") upon completion.
+    """
     # Drop all existing tables (use cautiously, it will delete all data)
     db.drop_all()
     

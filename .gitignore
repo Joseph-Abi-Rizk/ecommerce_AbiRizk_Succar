@@ -1,2 +1,12 @@
 venv/
 database/
+docs/_build/
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore IDE/project files
+.vscode/
+.idea/
+*.swp
