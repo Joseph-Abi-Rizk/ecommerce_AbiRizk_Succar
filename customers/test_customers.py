@@ -81,10 +81,3 @@ def test_login_success(client):
     assert response.status_code == 200
     assert b"token" in response.data
 
-def test_sentry_error(client):
-    """
-    Test Sentry integration for capturing errors.
-    """
-    response = client.get('/error')
-    assert response.status_code == 500
-    assert b"Error logged to Sentry" in response.data

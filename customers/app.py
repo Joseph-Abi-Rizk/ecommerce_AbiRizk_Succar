@@ -8,8 +8,6 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 import logging
-import sentry_sdk
-from sentry_sdk.integrations.flask import FlaskIntegration
 from flask_caching import Cache
 
 # Initialize the app and database
@@ -36,13 +34,6 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
-
-# Sentry setup
-sentry_sdk.init(
-    dsn="https://<your_sentry_dsn>",
-    integrations=[FlaskIntegration()],
-    traces_sample_rate=1.0  # Track every transaction
-)
 
 # Customer Model
 class Customer(db.Model):
@@ -178,18 +169,7 @@ def get_all_customers():
     customer_list = [{"id": customer.id, "username": customer.username, "full_name": customer.full_name} for customer in customers]
     return jsonify(customer_list)
 
-# Error Handling with Sentry
-@app.route('/error')
-def error_route():
-    """
-    Test route for error logging to Sentry.
-    """
-    try:
-        # Simulate an error
-        1 / 0
-    except Exception as e:
-        sentry_sdk.capture_exception(e)
-        return jsonify({"message": "Error logged to Sentry"}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)

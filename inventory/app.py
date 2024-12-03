@@ -6,8 +6,6 @@ import pstats
 from io import StringIO
 from memory_profiler import profile
 import logging
-import sentry_sdk
-from sentry_sdk.integrations.flask import FlaskIntegration
 from flask_caching import Cache
 
 # Initialize the app and database
@@ -35,12 +33,6 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-# Sentry setup
-sentry_sdk.init(
-    dsn="https://<your_sentry_dsn>",
-    integrations=[FlaskIntegration()],
-    traces_sample_rate=1.0  # Track every transaction
-)
 
 # User Model for Authentication
 class User(db.Model):
@@ -189,19 +181,6 @@ def get_inventory():
         for item in items
     ]
     return jsonify(inventory_list), 200
-
-# Error Handling with Sentry
-@app.route('/error')
-def error_route():
-    """
-    Test route for error logging to Sentry.
-    """
-    try:
-        # Simulate an error
-        1 / 0
-    except Exception as e:
-        sentry_sdk.capture_exception(e)
-        return jsonify({"message": "Error logged to Sentry"}), 500
 
 if __name__ == '__main__':
     with app.app_context():

@@ -107,14 +107,6 @@ def test_health_check(client):
     assert response.status_code == 200
     assert b"healthy" in response.data
 
-def test_error_logging(client):
-    """
-    Test Sentry error logging integration by triggering an error.
-    """
-    response = client.get('/error')
-    assert response.status_code == 500
-    assert b"Error logged to Sentry" in response.data
-
 def test_cache(client):
     """
     Test caching functionality.
