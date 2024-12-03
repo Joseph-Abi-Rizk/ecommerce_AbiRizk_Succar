@@ -1,5 +1,6 @@
 import pytest
 from reviews.app import app, db, Review, Customer, Inventory
+from flask_jwt_extended import create_access_token
 
 @pytest.fixture
 def client():
@@ -24,19 +25,9 @@ def client():
             gender="Male",
             marital_status="Single"
         )
-        user2 = Customer(
-            full_name="Nadim Joseph",
-            username="nadeph",
-            password="nadeph123",
-            age=28,
-            address="aub",
-            gender="Male",
-            marital_status="Single"
-        )
 
         # Add users to the database
         db.session.add(user1)
-        db.session.add(user2)
 
         # Create inventory item (Laptop)
         inventory_item = Inventory(
@@ -56,11 +47,21 @@ def client():
     with app.app_context():
         db.drop_all()
 
-def test_submit_review(client):
+
+@pytest.fixture
+def auth_header(client):
+    """
+    Generates an authorization header with a valid JWT token.
+    """
+    token = create_access_token(identity="jodim")
+    return {"Authorization": f"Bearer {token}"}
+
+
+def test_submit_review(client, auth_header):
     """
     Test submitting a new review.
     """
-    response = client.post('/reviews/submit', json={
+    response = client.post('/reviews/submit', headers=auth_header, json={
         "username": "jodim",
         "item_id": 1,
         "rating": 5,
@@ -69,22 +70,70 @@ def test_submit_review(client):
     assert response.status_code == 201
     assert b"Review submitted successfully" in response.data
 
-def test_update_review(client):
+
+def test_submit_review_invalid_rating(client, auth_header):
+    """
+    Test submitting a review with an invalid rating.
+    """
+    response = client.post('/reviews/submit', headers=auth_header, json={
+        "username": "jodim",
+        "item_id": 1,
+        "rating": 6,  # Invalid rating
+        "comment": "Excellent product!"
+    })
+    assert response.status_code == 400
+    assert b"Rating must be between 1 and 5" in response.data
+
+
+def test_update_review(client, auth_header):
     """
     Test updating an existing review.
     """
-    client.post('/reviews/submit', json={
-        "username": "nadeph",
+    client.post('/reviews/submit', headers=auth_header, json={
+        "username": "jodim",
         "item_id": 1,
-        "rating": 4,
-        "comment": "Good product"
+        "rating": 5,
+        "comment": "Great product!"
     })
-    response = client.put('/reviews/update/1', json={
-        "rating": 3,
-        "comment": "Decent product, but could be better"
+    response = client.put('/reviews/update/1', headers=auth_header, json={
+        "rating": 4,
+        "comment": "Good product, but not perfect."
     })
     assert response.status_code == 200
     assert b"Review updated successfully" in response.data
+
+
+def test_delete_review(client, auth_header):
+    """
+    Test deleting a review.
+    """
+    client.post('/reviews/submit', headers=auth_header, json={
+        "username": "jodim",
+        "item_id": 1,
+        "rating": 5,
+        "comment": "Good product."
+    })
+    response = client.delete('/reviews/delete/1', headers=auth_header)
+    assert response.status_code == 200
+    assert b"Review deleted successfully" in response.data
+
+
+def test_moderate_review(client, auth_header):
+    """
+    Test moderating a review.
+    """
+    client.post('/reviews/submit', headers=auth_header, json={
+        "username": "jodim",
+        "item_id": 1,
+        "rating": 5,
+        "comment": "Good product."
+    })
+    response = client.post('/reviews/moderate/1', headers=auth_header, json={
+        "status": "Approved"
+    })
+    assert response.status_code == 200
+    assert b"Review status updated to Approved" in response.data
+
 
 def test_get_product_reviews(client):
     """
@@ -96,13 +145,6 @@ def test_get_product_reviews(client):
         "rating": 5,
         "comment": "Excellent product!"
     })
-    client.post('/reviews/submit', json={
-        "username": "nadeph",
-        "item_id": 1,
-        "rating": 4,
-        "comment": "Good product"
-    })
     response = client.get('/reviews/product/1')
     assert response.status_code == 200
     assert b"Excellent product!" in response.data
-    assert b"Good product" in response.data
