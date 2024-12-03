@@ -4,13 +4,7 @@ from customers.app import app, db
 @pytest.fixture
 def client():
     """
-    Initializes the Flask app and sets up a test client for making HTTP requests.
-
-    This fixture configures the Flask app for testing, sets the testing database URI to an in-memory SQLite database,
-    and creates the necessary tables before each test. After each test, the tables are dropped to ensure a clean state.
-
-    Returns:
-        Flask test client: A test client that can be used to send HTTP requests to the app.
+    Initializes the Flask app and sets up a test client for testing.
     """
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_database.db'
     app.config['TESTING'] = True
@@ -28,17 +22,7 @@ def client():
 
 def test_register_customer(client):
     """
-    Test case for customer registration.
-
-    This test sends a POST request to the '/customers/register' endpoint with valid customer details.
-    It verifies that the customer is successfully registered and that the response status code is 201 (Created).
-
-    Expected outcome:
-        - The response status code should be 201.
-        - The response message should contain 'Customer registered successfully'.
-    
-    Args:
-        client (Flask test client): The test client used to send HTTP requests.
+    Test customer registration endpoint.
     """
     response = client.post('/customers/register', json={
         "full_name": "Joseph Nadim",
@@ -54,18 +38,7 @@ def test_register_customer(client):
 
 def test_duplicate_username(client):
     """
-    Test case for handling duplicate usernames during customer registration.
-
-    This test first registers a customer with the username 'jodim', then tries to register a second customer
-    with the same username. It verifies that the second attempt returns a 400 status code and the message
-    'Username already taken'.
-
-    Expected outcome:
-        - The first registration should succeed with a status code of 201.
-        - The second registration should fail with a status code of 400 and a message 'Username already taken'.
-
-    Args:
-        client (Flask test client): The test client used to send HTTP requests.
+    Test handling duplicate usernames during registration.
     """
     # Register first customer
     client.post('/customers/register', json={
@@ -78,7 +51,7 @@ def test_duplicate_username(client):
         "marital_status": "Single"
     })
 
-    # Attempt to register second customer with the same username
+    # Attempt to register a second customer with the same username
     response = client.post('/customers/register', json={
         "full_name": "Nadim Joseph",
         "username": "jodim",
@@ -93,19 +66,8 @@ def test_duplicate_username(client):
 
 def test_get_all_customers(client):
     """
-    Test case for retrieving all customers.
-
-    This test registers a customer and then sends a GET request to the '/customers' endpoint to retrieve a list of all customers.
-    It verifies that the registered customer's username appears in the response data.
-
-    Expected outcome:
-        - The response status code should be 200.
-        - The response data should contain the username 'jodim'.
-
-    Args:
-        client (Flask test client): The test client used to send HTTP requests.
+    Test retrieving all customers.
     """
-    
     client.post('/customers/register', json={
         "full_name": "Joseph Nadim",
         "username": "jodim",
@@ -117,5 +79,23 @@ def test_get_all_customers(client):
     })
 
     response = client.get('/customers')
+    assert response.status_code == 200
+    assert b"jodim" in response.data
+
+def test_get_customer_by_username(client):
+    """
+    Test retrieving a customer by username.
+    """
+    client.post('/customers/register', json={
+        "full_name": "Joseph Nadim",
+        "username": "jodim",
+        "password": "jodim123",
+        "age": 21,
+        "address": "hamra bliss",
+        "gender": "Male",
+        "marital_status": "Single"
+    })
+
+    response = client.get('/customers/jodim')
     assert response.status_code == 200
     assert b"jodim" in response.data

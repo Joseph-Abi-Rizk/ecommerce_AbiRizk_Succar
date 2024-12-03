@@ -1,17 +1,10 @@
 import pytest
-from sales.app import app,db, Sale, Customer, Inventory
+from sales.app import app, db, Sale, Customer, Inventory
 
 @pytest.fixture
 def client():
     """
     Initializes the Flask app and sets up a test client for making HTTP requests.
-
-    This fixture configures the Flask app for testing, sets the testing database URI to an in-memory SQLite database,
-    and creates the necessary tables before each test. It also creates some test data (users and inventory items)
-    that are committed to the database before each test. After each test, the tables are dropped to ensure a clean state.
-
-    Returns:
-        Flask test client: A test client that can be used to send HTTP requests to the app.
     """
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_sales.db'
     app.config['TESTING'] = True
@@ -67,63 +60,42 @@ def client():
 
 def test_process_sale(client):
     """
-    Test case for processing a sale transaction.
-
-    This test simulates a sale transaction where a customer (jodim) buys an item (Laptop) from the inventory.
-    It checks if the sale is processed correctly by verifying the updated wallet balance and the inventory count.
-
-    Expected outcome:
-        - The response status code should be 200.
-        - The response message should contain 'Sale processed successfully'.
-        - The wallet balance of the customer should be deducted by the price of the item.
-        - The inventory count should be reduced by the quantity of the item purchased.
-
-    Arguments:
-        client (Flask test client): The test client used to send HTTP requests.
+    Test processing a sale transaction.
     """
-    with app.app_context():
-        # Simulate a sale for user1 (jodim)
-        response = client.post('/sales', json={
-            "username": "jodim",
-            "item_id": 1,  # Laptop item ID
-            "quantity": 1
-        })
-        assert response.status_code == 200
-        assert b"Sale processed successfully" in response.data
+    response = client.post('/sales', json={
+        "username": "jodim",
+        "item_id": 1,  # Laptop item ID
+        "quantity": 1
+    })
+    assert response.status_code == 200
+    assert b"Sale processed successfully" in response.data
 
-        # Verify the updated wallet balance
-        customer = Customer.query.filter_by(username="jodim").first()
-        assert customer.wallet_balance == 0  # Wallet should be deducted by the price of the laptop
+    # Verify the updated wallet balance
+    customer = Customer.query.filter_by(username="jodim").first()
+    assert customer.wallet_balance == 0
 
-        # Verify inventory count
-        item = Inventory.query.get(1)
-        assert item.count == 9  # Inventory count should decrease by 1
+    # Verify inventory count
+    item = Inventory.query.get(1)
+    assert item.count == 9
+
+def test_display_goods(client):
+    """
+    Test displaying available goods.
+    """
+    response = client.get('/sales/goods')
+    assert response.status_code == 200
+    assert b"Laptop" in response.data
 
 def test_get_purchase_history(client):
     """
-    Test case for retrieving a customer's purchase history.
-
-    This test simulates a sale transaction for a customer (nadeph) and then checks the customer's purchase history.
-    It verifies that the history returns the correct items and quantities purchased.
-
-    Expected outcome:
-        - The response status code should be 200.
-        - The response data should include the correct item ID and quantity for the customer's purchase history.
-
-    Arguments:
-        client (Flask test client): The test client used to send HTTP requests.
+    Test retrieving a customer's purchase history.
     """
-    with app.app_context():
+    client.post('/sales', json={
+        "username": "nadeph",
+        "item_id": 1,  # Laptop item ID
+        "quantity": 1
+    })
 
-        # Simulate a sale for user2 
-        client.post('/sales', json={
-            "username": "nadeph",
-            "item_id": 1,  # Laptop item ID
-            "quantity": 1
-        })
-
-        response = client.get('/sales/history/nadeph')
-        assert response.status_code == 200
-
-
-        
+    response = client.get('/sales/history/nadeph')
+    assert response.status_code == 200
+    assert b"1" in response.data
