@@ -4,18 +4,45 @@ from io import StringIO
 from memory_profiler import profile
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
+import logging
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+from flask_caching import Cache
 
 # Initialize the app and database
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/pc/OneDrive/Desktop/uni/FALL 25/eece435L/ecommerce_AbiRizk_Succar/database/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'NadimandJoseph'
+app.config['CACHE_TYPE'] = 'simple'  # You can change this to 'redis' for better performance
+app.config['CACHE_DEFAULT_TIMEOUT'] = 300  # Cache timeout in seconds
 
+# Initialize extensions
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
+cache = Cache(app)
+
+# Set up logging configuration
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),  # Outputs logs to console
+        logging.FileHandler('customers_app.log')  # Logs saved to app.log
+    ]
+)
+
+logger = logging.getLogger(__name__)
+
+# Sentry setup
+sentry_sdk.init(
+    dsn="https://<your_sentry_dsn>",
+    integrations=[FlaskIntegration()],
+    traces_sample_rate=1.0  # Track every transaction
+)
 
 # Customer Model
 class Customer(db.Model):
@@ -52,14 +79,23 @@ def stop_profiling(response):
     return response
 
 # Routes
+
+# Health Check
+@app.route('/health', methods=['GET'])
+def health_check():
+    try:
+        # Check if the database is up
+        db.session.execute('SELECT 1')
+        return jsonify({"status": "healthy", "database": "ok"}), 200
+    except Exception as e:
+        return jsonify({"status": "unhealthy", "database": "failed"}), 500
+
+# Register a customer
 @profile
 @app.route('/customers/register', methods=['POST'])
 def register_customer():
     """
     Registers a new customer.
-
-    Returns:
-        JSON response with success or error message.
     """
     data = request.get_json()
 
@@ -89,15 +125,14 @@ def register_customer():
     )
     db.session.add(new_customer)
     db.session.commit()
+    logger.info(f"New customer registered: {data['username']}")
     return jsonify({"message": "Customer registered successfully"}), 201
 
+# Login a customer
 @app.route('/customers/login', methods=['POST'])
 def login():
     """
     Authenticates a user and returns a JWT token.
-
-    Returns:
-        JSON response with the JWT token or error message.
     """
     data = request.get_json()
     username = data.get('username')
@@ -108,16 +143,15 @@ def login():
         return jsonify({"message": "Invalid username or password"}), 401
 
     token = create_access_token(identity=username)
+    logger.info(f"User logged in: {username}")
     return jsonify({"token": token}), 200
 
+# Charge customer's wallet
 @app.route('/customers/<username>/charge', methods=['POST'])
 @jwt_required()
 def charge_customer(username):
     """
     Charges a customer's wallet with a specified amount.
-
-    Returns:
-        JSON response with success or error message.
     """
     data = request.get_json()
     amount = data.get('amount', 0)
@@ -131,9 +165,31 @@ def charge_customer(username):
 
     customer.wallet_balance += amount
     db.session.commit()
+    logger.info(f"${amount} charged to {username}'s wallet")
     return jsonify({"message": f"${amount} charged to {username}'s wallet"}), 200
 
-# Other routes remain unchanged
+# Get all customers
+@app.route('/customers', methods=['GET'])
+def get_all_customers():
+    """
+    Fetches all customers.
+    """
+    customers = Customer.query.all()
+    customer_list = [{"id": customer.id, "username": customer.username, "full_name": customer.full_name} for customer in customers]
+    return jsonify(customer_list)
+
+# Error Handling with Sentry
+@app.route('/error')
+def error_route():
+    """
+    Test route for error logging to Sentry.
+    """
+    try:
+        # Simulate an error
+        1 / 0
+    except Exception as e:
+        sentry_sdk.capture_exception(e)
+        return jsonify({"message": "Error logged to Sentry"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)

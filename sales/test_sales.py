@@ -98,3 +98,33 @@ def test_purchase_history(client, auth_header):
     response = client.get('/sales/history/jodim', headers=auth_header)
     assert response.status_code == 200
     assert b"1" in response.data
+
+def test_health_check(client):
+    """
+    Test the health check endpoint.
+    """
+    response = client.get('/health')
+    assert response.status_code == 200
+    assert b"healthy" in response.data
+
+def test_error_logging(client):
+    """
+    Test Sentry error logging integration by triggering an error.
+    """
+    response = client.get('/error')
+    assert response.status_code == 500
+    assert b"Error logged to Sentry" in response.data
+
+def test_cache(client):
+    """
+    Test caching functionality.
+    """
+    # First request to add data to cache
+    response1 = client.get('/sales/goods')
+    
+    # Second request should retrieve from cache
+    response2 = client.get('/sales/goods')
+
+    assert response1.data == response2.data
+    assert response2.status_code == 200
+    assert b"Laptop" in response2.data

@@ -1,17 +1,46 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import cProfile
 import pstats
 from io import StringIO
 from memory_profiler import profile
+import logging
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+from flask_caching import Cache
 
+# Initialize the app and database
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/pc/OneDrive/Desktop/uni/FALL 25/eece435L/ecommerce_AbiRizk_Succar/database/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'YourSecretKey'  # Change this to a secure key
+app.config['CACHE_TYPE'] = 'simple'  # You can change this to 'redis' for better performance
+app.config['CACHE_DEFAULT_TIMEOUT'] = 300  # Cache timeout in seconds
+
+# Initialize extensions
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
+cache = Cache(app)
+
+# Set up logging configuration
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),  # Outputs logs to console
+        logging.FileHandler('inventory_app.log')  # Logs saved to app.log
+    ]
+)
+
+logger = logging.getLogger(__name__)
+
+# Sentry setup
+sentry_sdk.init(
+    dsn="https://<your_sentry_dsn>",
+    integrations=[FlaskIntegration()],
+    traces_sample_rate=1.0  # Track every transaction
+)
 
 # User Model for Authentication
 class User(db.Model):
@@ -34,6 +63,7 @@ def start_profiling():
     request.profiler = cProfile.Profile()
     request.profiler.enable()
 
+# Performance profiling: Stop profiling and log results after each request
 @app.after_request
 def stop_profiling(response):
     if hasattr(request, 'profiler'):
@@ -44,14 +74,21 @@ def stop_profiling(response):
         app.logger.info(s.getvalue())
     return response
 
+# Health Check
+@app.route('/health', methods=['GET'])
+def health_check():
+    try:
+        # Check if the database is up
+        db.session.execute('SELECT 1')
+        return jsonify({"status": "healthy", "database": "ok"}), 200
+    except Exception as e:
+        return jsonify({"status": "unhealthy", "database": "failed"}), 500
+
 # Routes
 @app.route('/inventory/login', methods=['POST'])
 def login():
     """
     Authenticates a user and returns a JWT token.
-
-    Returns:
-        JSON response with the JWT token or an error message.
     """
     data = request.get_json()
     username = data.get('username')
@@ -62,6 +99,7 @@ def login():
         return jsonify({"message": "Invalid username or password"}), 401
 
     token = create_access_token(identity=username)
+    logger.info(f"User logged in: {username}")
     return jsonify({"token": token}), 200
 
 @profile
@@ -70,9 +108,6 @@ def login():
 def add_goods():
     """
     Adds a new item to the inventory.
-
-    Returns:
-        JSON response with success or error message.
     """
     data = request.get_json()
 
@@ -94,6 +129,7 @@ def add_goods():
     )
     db.session.add(new_item)
     db.session.commit()
+    logger.info(f"New item added: {data['name']} (Category: {data['category']})")
     return jsonify({"message": "Item added successfully"}), 201
 
 @app.route('/inventory/update/<int:item_id>', methods=['PUT'])
@@ -101,9 +137,6 @@ def add_goods():
 def update_goods(item_id):
     """
     Updates an existing inventory item.
-
-    Returns:
-        JSON response with success or error message.
     """
     item = Inventory.query.get(item_id)
     if not item:
@@ -121,6 +154,7 @@ def update_goods(item_id):
             setattr(item, key, value)
 
     db.session.commit()
+    logger.info(f"Item updated: {item.name}")
     return jsonify({"message": "Item updated successfully"}), 200
 
 @app.route('/inventory/deduct/<int:item_id>', methods=['POST'])
@@ -128,9 +162,6 @@ def update_goods(item_id):
 def deduct_goods(item_id):
     """
     Deducts a specified quantity of an inventory item.
-
-    Returns:
-        JSON response with success or error message.
     """
     item = Inventory.query.get(item_id)
     if not item:
@@ -144,15 +175,13 @@ def deduct_goods(item_id):
 
     item.count -= data['count']
     db.session.commit()
+    logger.info(f"Stock deducted: {item.name} | Remaining stock: {item.count}")
     return jsonify({"message": "Stock deducted successfully", "remaining_count": item.count}), 200
 
 @app.route('/inventory', methods=['GET'])
 def get_inventory():
     """
     Retrieves all items from the inventory.
-
-    Returns:
-        JSON response with the list of items.
     """
     items = Inventory.query.all()
     inventory_list = [
@@ -160,6 +189,19 @@ def get_inventory():
         for item in items
     ]
     return jsonify(inventory_list), 200
+
+# Error Handling with Sentry
+@app.route('/error')
+def error_route():
+    """
+    Test route for error logging to Sentry.
+    """
+    try:
+        # Simulate an error
+        1 / 0
+    except Exception as e:
+        sentry_sdk.capture_exception(e)
+        return jsonify({"message": "Error logged to Sentry"}), 500
 
 if __name__ == '__main__':
     with app.app_context():

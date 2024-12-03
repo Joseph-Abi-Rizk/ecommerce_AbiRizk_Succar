@@ -25,8 +25,6 @@ def client():
             gender="Male",
             marital_status="Single"
         )
-
-        # Add users to the database
         db.session.add(user1)
 
         # Create inventory item (Laptop)
@@ -38,7 +36,6 @@ def client():
             count=10
         )
         db.session.add(inventory_item)
-
         db.session.commit()
 
     yield client
