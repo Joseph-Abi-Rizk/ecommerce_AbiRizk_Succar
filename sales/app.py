@@ -1,35 +1,38 @@
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 import cProfile
 import pstats
 from io import StringIO
 from memory_profiler import profile
-from flask import Flask, request, jsonify
-from database.models import db, Sale, Customer, Inventory
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/pc/OneDrive/Desktop/uni/FALL 25/eece435L/ecommerce_AbiRizk_Succar/database/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
+app.config['JWT_SECRET_KEY'] = 'YourSecretKey'
+db = SQLAlchemy(app)
+jwt = JWTManager(app)
 
-# Performance profiling: Start profiling before each request
+# Models: Sale, Customer, Inventory
+
 @app.before_request
 def start_profiling():
     request.profiler = cProfile.Profile()
     request.profiler.enable()
 
-# Performance profiling: Stop profiling and log results after each request
 @app.after_request
 def stop_profiling(response):
     if hasattr(request, 'profiler'):
         request.profiler.disable()
         s = StringIO()
         ps = pstats.Stats(request.profiler, stream=s).sort_stats('cumulative')
-        ps.print_stats(10)  # Log top 10 slowest functions
+        ps.print_stats(10)
         app.logger.info(s.getvalue())
     return response
 
-# Memory profiling example: Annotate critical function
 @profile
 @app.route('/sales', methods=['POST'])
+@jwt_required()
 def process_sale():
     """
     Processes a sale transaction for a customer.
@@ -40,6 +43,10 @@ def process_sale():
 
     if not customer or not item:
         return jsonify({"message": "Customer or item not found"}), 404
+
+    # Validate quantity
+    if not isinstance(data['quantity'], int) or data['quantity'] <= 0:
+        return jsonify({"message": "Quantity must be a positive integer"}), 400
 
     if customer.wallet_balance < item.price * data['quantity']:
         return jsonify({"message": "Insufficient funds"}), 400
@@ -57,7 +64,7 @@ def process_sale():
     db.session.add(new_sale)
     db.session.commit()
 
-    return jsonify({"message": "Sale processed successfully", "remaining_balance": customer.wallet_balance})
+    return jsonify({"message": "Sale processed successfully", "remaining_balance": customer.wallet_balance}), 200
 
 @app.route('/sales/goods', methods=['GET'])
 def display_goods():
@@ -66,9 +73,10 @@ def display_goods():
     """
     items = Inventory.query.filter(Inventory.count > 0).all()
     goods = [{"id": item.id, "name": item.name, "price": item.price, "count": item.count} for item in items]
-    return jsonify(goods)
+    return jsonify(goods), 200
 
 @app.route('/sales/history/<username>', methods=['GET'])
+@jwt_required()
 def purchase_history(username):
     """
     Retrieves the purchase history of a customer.
@@ -82,7 +90,4 @@ def purchase_history(username):
         {"item_id": sale.inventory_id, "quantity": sale.quantity, "date": sale.sale_date}
         for sale in sales
     ]
-    return jsonify(history)
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5003)
+    return jsonify(history), 200

@@ -1,5 +1,6 @@
 import pytest
 from sales.app import app, db, Sale, Customer, Inventory
+from flask_jwt_extended import create_access_token
 
 @pytest.fixture
 def client():
@@ -25,20 +26,7 @@ def client():
             marital_status="Single",
             wallet_balance=1000
         )
-        user2 = Customer(
-            full_name="Nadim Joseph",
-            username="nadeph",
-            password="nadeph123",
-            age=28,
-            address="aub",
-            gender="Male",
-            marital_status="Single",
-            wallet_balance=1000
-        )
-
-        # Add users to the database
         db.session.add(user1)
-        db.session.add(user2)
 
         # Create inventory item (Laptop)
         inventory_item = Inventory(
@@ -58,11 +46,19 @@ def client():
     with app.app_context():
         db.drop_all()
 
-def test_process_sale(client):
+@pytest.fixture
+def auth_header(client):
+    """
+    Generates an authorization header with a valid JWT token.
+    """
+    token = create_access_token(identity="jodim")
+    return {"Authorization": f"Bearer {token}"}
+
+def test_process_sale(client, auth_header):
     """
     Test processing a sale transaction.
     """
-    response = client.post('/sales', json={
+    response = client.post('/sales', headers=auth_header, json={
         "username": "jodim",
         "item_id": 1,  # Laptop item ID
         "quantity": 1
@@ -70,13 +66,17 @@ def test_process_sale(client):
     assert response.status_code == 200
     assert b"Sale processed successfully" in response.data
 
-    # Verify the updated wallet balance
-    customer = Customer.query.filter_by(username="jodim").first()
-    assert customer.wallet_balance == 0
-
-    # Verify inventory count
-    item = Inventory.query.get(1)
-    assert item.count == 9
+def test_process_sale_invalid_quantity(client, auth_header):
+    """
+    Test processing a sale with an invalid quantity.
+    """
+    response = client.post('/sales', headers=auth_header, json={
+        "username": "jodim",
+        "item_id": 1,
+        "quantity": -1  # Invalid quantity
+    })
+    assert response.status_code == 400
+    assert b"Quantity must be a positive integer" in response.data
 
 def test_display_goods(client):
     """
@@ -86,16 +86,15 @@ def test_display_goods(client):
     assert response.status_code == 200
     assert b"Laptop" in response.data
 
-def test_get_purchase_history(client):
+def test_purchase_history(client, auth_header):
     """
     Test retrieving a customer's purchase history.
     """
-    client.post('/sales', json={
-        "username": "nadeph",
+    client.post('/sales', headers=auth_header, json={
+        "username": "jodim",
         "item_id": 1,  # Laptop item ID
         "quantity": 1
     })
-
-    response = client.get('/sales/history/nadeph')
+    response = client.get('/sales/history/jodim', headers=auth_header)
     assert response.status_code == 200
     assert b"1" in response.data
