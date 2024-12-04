@@ -2,6 +2,7 @@ import pytest
 from reviews.app import app, db, Review, Customer, Inventory
 from flask_jwt_extended import create_access_token
 
+
 @pytest.fixture
 def client():
     """
@@ -23,7 +24,8 @@ def client():
             age=21,
             address="hamra bliss",
             gender="Male",
-            marital_status="Single"
+            marital_status="Single",
+            wallet_balance=500.0
         )
         db.session.add(user1)
 
@@ -50,7 +52,8 @@ def auth_header(client):
     """
     Generates an authorization header with a valid JWT token.
     """
-    token = create_access_token(identity="jodim")
+    with app.app_context():
+        token = create_access_token(identity="jodim")
     return {"Authorization": f"Bearer {token}"}
 
 
@@ -132,16 +135,17 @@ def test_moderate_review(client, auth_header):
     assert b"Review status updated to Approved" in response.data
 
 
-def test_get_product_reviews(client):
+def test_get_product_reviews(client, auth_header):
     """
     Test retrieving all reviews for a product.
     """
-    client.post('/reviews/submit', json={
+    client.post('/reviews/submit', headers=auth_header, json={
         "username": "jodim",
         "item_id": 1,
         "rating": 5,
         "comment": "Excellent product!"
     })
-    response = client.get('/reviews/product/1')
+    response = client.get('/reviews/product/1', headers=auth_header)
     assert response.status_code == 200
     assert b"Excellent product!" in response.data
+

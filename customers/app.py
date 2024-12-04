@@ -12,7 +12,7 @@ from flask_caching import Cache
 
 # Initialize the app and database
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/pc/OneDrive/Desktop/uni/FALL 25/eece435L/ecommerce_AbiRizk_Succar/database/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\nsucc\\Desktop\\python env\\ecommerce_AbiRizk_Succar\\database\\database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'NadimandJoseph'
 app.config['CACHE_TYPE'] = 'simple'  # You can change this to 'redis' for better performance
@@ -55,31 +55,27 @@ def validate_email(username):
 # Performance profiling: Start profiling before each request
 @app.before_request
 def start_profiling():
-    request.profiler = cProfile.Profile()
-    request.profiler.enable()
+    """Start profiling the request"""
+    with app.app_context():
+        request.profiler = cProfile.Profile()
+        request.profiler.enable()
 
 # Performance profiling: Stop profiling and log results after each request
 @app.after_request
 def stop_profiling(response):
+    """Stop profiling the request and log the stats"""
     if hasattr(request, 'profiler'):
-        request.profiler.disable()
-        s = StringIO()
-        ps = pstats.Stats(request.profiler, stream=s).sort_stats('cumulative')
-        ps.print_stats(10)  # Log top 10 slowest functions
-        app.logger.info(s.getvalue())
+        with app.app_context():
+            request.profiler.disable()
+            s = StringIO()
+            ps = pstats.Stats(request.profiler, stream=s).sort_stats('cumulative')
+            ps.print_stats(10)  # Log top 10 slowest functions
+            app.logger.info(s.getvalue())
     return response
 
 # Routes
 
-# Health Check
-@app.route('/health', methods=['GET'])
-def health_check():
-    try:
-        # Check if the database is up
-        db.session.execute('SELECT 1')
-        return jsonify({"status": "healthy", "database": "ok"}), 200
-    except Exception as e:
-        return jsonify({"status": "unhealthy", "database": "failed"}), 500
+
 
 # Register a customer
 @profile
@@ -98,11 +94,12 @@ def register_customer():
         return jsonify({"message": "Invalid username format. Use an email address."}), 400
 
     # Check if the username is unique
-    if Customer.query.filter_by(username=data['username']).first():
-        return jsonify({"message": "Username already taken"}), 400
+    with app.app_context():
+        if Customer.query.filter_by(username=data['username']).first():
+            return jsonify({"message": "Username already taken"}), 400
 
     # Hash the password
-    hashed_password = generate_password_hash(data['password'], method='bcrypt')
+    hashed_password = generate_password_hash(data['password'])
 
     # Create and add new customer
     new_customer = Customer(
@@ -114,8 +111,10 @@ def register_customer():
         gender=data.get('gender'),
         marital_status=data.get('marital_status'),
     )
-    db.session.add(new_customer)
-    db.session.commit()
+    with app.app_context():
+        db.session.add(new_customer)
+        db.session.commit()
+
     logger.info(f"New customer registered: {data['username']}")
     return jsonify({"message": "Customer registered successfully"}), 201
 
@@ -129,9 +128,10 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    customer = Customer.query.filter_by(username=username).first()
-    if not customer or not check_password_hash(customer.password, password):
-        return jsonify({"message": "Invalid username or password"}), 401
+    with app.app_context():
+        customer = Customer.query.filter_by(username=username).first()
+        if not customer or not check_password_hash(customer.password, password):
+            return jsonify({"message": "Invalid username or password"}), 401
 
     token = create_access_token(identity=username)
     logger.info(f"User logged in: {username}")
@@ -146,18 +146,41 @@ def charge_customer(username):
     """
     data = request.get_json()
     amount = data.get('amount', 0)
-    customer = Customer.query.filter_by(username=username).first()
 
-    if not customer:
-        return jsonify({"message": "Customer not found"}), 404
+    with app.app_context():
+        customer = Customer.query.filter_by(username=username).first()
+        if not customer:
+            return jsonify({"message": "Customer not found"}), 404
 
-    if amount <= 0:
-        return jsonify({"message": "Amount must be greater than 0"}), 400
+        if amount <= 0:
+            return jsonify({"message": "Amount must be greater than 0"}), 400
 
-    customer.wallet_balance += amount
-    db.session.commit()
-    logger.info(f"${amount} charged to {username}'s wallet")
-    return jsonify({"message": f"${amount} charged to {username}'s wallet"}), 200
+        customer.wallet_balance += amount
+        db.session.commit()
+        logger.info(f"${amount} charged to {username}'s wallet")
+        return jsonify({"message": f"${amount} charged to {username}'s wallet"}), 200
+
+# Get customer data
+@app.route('/customers/<username>', methods=['GET'])
+@cache.cached(timeout=60)  # Cache for 60 seconds
+def get_customer(username):
+    """
+    Fetches customer by username.
+    """
+    with app.app_context():
+        customer = Customer.query.filter_by(username=username).first()
+        if customer:
+            return jsonify({
+                "id": customer.id,
+                "username": customer.username,
+                "full_name": customer.full_name,
+                "age": customer.age,
+                "address": customer.address,
+                "gender": customer.gender,
+                "marital_status": customer.marital_status,
+                "wallet_balance": customer.wallet_balance
+            }), 200
+    return jsonify({"message": "Customer not found"}), 404
 
 # Get all customers
 @app.route('/customers', methods=['GET'])
@@ -165,11 +188,10 @@ def get_all_customers():
     """
     Fetches all customers.
     """
-    customers = Customer.query.all()
-    customer_list = [{"id": customer.id, "username": customer.username, "full_name": customer.full_name} for customer in customers]
+    with app.app_context():
+        customers = Customer.query.all()
+        customer_list = [{"id": customer.id, "username": customer.username, "full_name": customer.full_name} for customer in customers]
     return jsonify(customer_list)
-
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)

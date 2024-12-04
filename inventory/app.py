@@ -10,7 +10,7 @@ from flask_caching import Cache
 
 # Initialize the app and database
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/pc/OneDrive/Desktop/uni/FALL 25/eece435L/ecommerce_AbiRizk_Succar/database/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\nsucc\\Desktop\\python env\\ecommerce_AbiRizk_Succar\\database\\database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'YourSecretKey'  # Change this to a secure key
 app.config['CACHE_TYPE'] = 'simple'  # You can change this to 'redis' for better performance
@@ -66,15 +66,7 @@ def stop_profiling(response):
         app.logger.info(s.getvalue())
     return response
 
-# Health Check
-@app.route('/health', methods=['GET'])
-def health_check():
-    try:
-        # Check if the database is up
-        db.session.execute('SELECT 1')
-        return jsonify({"status": "healthy", "database": "ok"}), 200
-    except Exception as e:
-        return jsonify({"status": "unhealthy", "database": "failed"}), 500
+
 
 # Routes
 @app.route('/inventory/login', methods=['POST'])

@@ -1,60 +1,60 @@
-2024-12-04 00:05:41,132 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2024-12-04 00:08:58,445 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5002
- * Running on http://192.168.1.5:5002
-2024-12-04 00:05:41,132 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2024-12-04 00:05:41,143 - werkzeug - INFO -  * Restarting with stat
-2024-12-04 00:05:42,464 - werkzeug - WARNING -  * Debugger is active!
-2024-12-04 00:05:42,464 - werkzeug - INFO -  * Debugger PIN: 465-073-143
-2024-12-04 00:06:55,937 - cProfile - INFO -          352 function calls (350 primitive calls) in 0.001 seconds
+ * Running on http://127.0.0.1:5004
+ * Running on http://192.168.1.5:5004
+2024-12-04 00:08:58,445 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2024-12-04 00:08:58,445 - werkzeug - INFO -  * Restarting with stat
+2024-12-04 00:08:59,820 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 00:08:59,823 - werkzeug - INFO -  * Debugger PIN: 465-073-143
+2024-12-04 00:09:02,899 - cProfile - INFO -          352 function calls (350 primitive calls) in 0.002 seconds
 
    Ordered by: cumulative time
    List reduced from 119 to 10 due to restriction <10>
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:885(finalize_request)
-        1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:1092(make_response)
+        1    0.000    0.000    0.002    0.002 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:885(finalize_request)
+        1    0.000    0.000    0.002    0.002 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:1092(make_response)
         1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:197(force_type)
         1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\test.py:1226(run_wsgi_app)
         1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:154(__call__)
-        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:132(get_response)
-        2    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:144(__init__)
+        1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:132(get_response)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:566(__call__)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:547(get_wsgi_response)
-        2    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\sansio\response.py:111(__init__)
+        2    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wsgi.py:233(__init__)
+        2    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:144(__init__)
 
 
 
-2024-12-04 00:06:55,943 - werkzeug - INFO - 127.0.0.1 - - [04/Dec/2024 00:06:55] "[33mGET / HTTP/1.1[0m" 404 -
-2024-12-04 00:06:56,009 - cProfile - INFO -          299 function calls in 0.001 seconds
+2024-12-04 00:09:02,903 - werkzeug - INFO - 127.0.0.1 - - [04/Dec/2024 00:09:02] "[33mGET / HTTP/1.1[0m" 404 -
+2024-12-04 00:09:02,983 - cProfile - INFO -          299 function calls in 0.000 seconds
 
    Ordered by: cumulative time
    List reduced from 99 to 10 due to restriction <10>
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:885(finalize_request)
-        1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:1092(make_response)
+        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:885(finalize_request)
+        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:1092(make_response)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:197(force_type)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\test.py:1226(run_wsgi_app)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:154(__call__)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:132(get_response)
         2    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:144(__init__)
-        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:110(get_body)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:566(__call__)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:547(get_wsgi_response)
+        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:110(get_body)
 
 
 
-2024-12-04 00:06:56,012 - werkzeug - INFO - 127.0.0.1 - - [04/Dec/2024 00:06:56] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
-2024-12-04 00:18:37,640 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2024-12-04 00:09:02,986 - werkzeug - INFO - 127.0.0.1 - - [04/Dec/2024 00:09:02] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2024-12-04 00:21:12,587 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5002
- * Running on http://192.168.1.5:5002
-2024-12-04 00:18:37,640 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2024-12-04 00:18:37,640 - werkzeug - INFO -  * Restarting with stat
-2024-12-04 00:18:38,570 - werkzeug - WARNING -  * Debugger is active!
-2024-12-04 00:18:38,573 - werkzeug - INFO -  * Debugger PIN: 465-073-143
-2024-12-04 00:18:41,191 - memory_profiler - INFO -          352 function calls (350 primitive calls) in 0.001 seconds
+ * Running on http://127.0.0.1:5004
+ * Running on http://192.168.1.5:5004
+2024-12-04 00:21:12,588 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2024-12-04 00:21:12,590 - werkzeug - INFO -  * Restarting with stat
+2024-12-04 00:21:13,555 - werkzeug - WARNING -  * Debugger is active!
+2024-12-04 00:21:13,558 - werkzeug - INFO -  * Debugger PIN: 465-073-143
+2024-12-04 00:21:15,274 - memory_profiler - INFO -          352 function calls (350 primitive calls) in 0.001 seconds
 
    Ordered by: cumulative time
    List reduced from 119 to 10 due to restriction <10>
@@ -64,13 +64,13 @@
         1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\flask\app.py:1092(make_response)
         1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:197(force_type)
         1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\test.py:1226(run_wsgi_app)
-        1    0.000    0.000    0.001    0.001 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:154(__call__)
-        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:566(__call__)
-        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:547(get_wsgi_response)
+        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:154(__call__)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:132(get_response)
-        2    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wsgi.py:233(__init__)
+        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:566(__call__)
+        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\exceptions.py:110(get_body)
+        1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:547(get_wsgi_response)
         1    0.000    0.000    0.000    0.000 c:\Users\nsucc\Desktop\python env\.venv\Lib\site-packages\werkzeug\wrappers\response.py:520(get_app_iter)
 
 
 
-2024-12-04 00:18:41,194 - werkzeug - INFO - 127.0.0.1 - - [04/Dec/2024 00:18:41] "[33mGET / HTTP/1.1[0m" 404 -
+2024-12-04 00:21:15,277 - werkzeug - INFO - 127.0.0.1 - - [04/Dec/2024 00:21:15] "[33mGET / HTTP/1.1[0m" 404 -
